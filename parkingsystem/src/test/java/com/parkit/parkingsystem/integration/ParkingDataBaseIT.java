@@ -90,4 +90,13 @@ public class ParkingDataBaseIT {
         assertEquals(Fare.CAR_RATE_PER_HOUR, ticketDAO.getTicket("ABCDEF").getPrice());
     }
 
+    @Test
+    public void testParkingLotExitRecurringUser(){
+        testParkingLotExit();
+        ParkingService parkingService = new ParkingService(inputReaderUtil, parkingSpotDAO, ticketDAO);
+        parkingService.processIncomingVehicle();
+        parkingService.processExitingVehicle();
+        assertEquals(Math.round((Fare.CAR_RATE_PER_HOUR-(Fare.CAR_RATE_PER_HOUR*0.05))*100.0)/100.0,ticketDAO.getTicket("ABCDEF").getPrice());
+    }
+
 }

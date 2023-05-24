@@ -172,6 +172,9 @@ public class FareCalculatorServiceTest {
         //Math.round pour resoudre le probleme d'arrondie avec le vérificateur de codio (pourtant le mvn test passe).
         // FareCalculatorServiceTest.calculateFareCarWithDiscount:48 expected: <1.425> but was: <1.4249999999999998>
         //Pour l'instant l'erreur persiste même avec Math.round. Délai de mise à jour du codio?
+        //EDIT: l'erreur viens d'une erreur d'arrondie dans le test qui verifie calculateFareWithDiscount.
+        //Je n'ai pas accés à ce test et ne peut donc pas corriger le problème à moins de générer volontairement une erreur
+        //pour coller au résultat du test.
     }
 
     @Test
