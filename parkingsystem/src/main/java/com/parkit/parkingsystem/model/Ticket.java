@@ -11,6 +11,8 @@ public class Ticket {
     private Date inTime;
     private Date outTime;
 
+    private boolean discount;
+
     public int getId() {
         return id;
     }
@@ -58,4 +60,5 @@ public class Ticket {
     public void setOutTime(Date outTime) {
         this.outTime = outTime;
     }
+
 }
