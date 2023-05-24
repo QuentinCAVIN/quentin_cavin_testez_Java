@@ -95,7 +95,9 @@ public class TicketDAO {
             PreparedStatement ps = con.prepareStatement(DBConstants.GET_NUMBER_OF_TICKET);
             ps.setString(1,vehicleRegNumber);
             ResultSet rs = ps.executeQuery();
-            nbTicket = rs.getInt(1);
+            if (rs.next()){ //permet d'assurer que rs contient quelquechose. Obligatoire sinon génére une excepotion.
+                nbTicket = rs.getInt(1);
+            }
             dataBaseConfig.closeResultSet(rs);
             dataBaseConfig.closePreparedStatement(ps);
         }catch (Exception ex){

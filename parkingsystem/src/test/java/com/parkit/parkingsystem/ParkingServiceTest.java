@@ -63,7 +63,7 @@ public class ParkingServiceTest {
     @Test
     public void processExitingVehicleTest(){
         //GIVEN
-        when(ticketDAO.getNbTicket(any())).thenReturn(0);
+        when(ticketDAO.getNbTicket(any())).thenReturn(1);
         //WHEN
         parkingService.processExitingVehicle();
         //THEN
