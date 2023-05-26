@@ -30,8 +30,6 @@ import static org.mockito.Mockito.*;
 @MockitoSettings(strictness = Strictness.LENIENT)
 public class ParkingServiceTest {
 
-
-
     private ParkingService parkingService = new ParkingService();
 
     @Mock
@@ -41,14 +39,6 @@ public class ParkingServiceTest {
 
     @Mock
     private static TicketDAO ticketDAO;
-
-
-
-
-
-
-
-
 
     @BeforeEach
     private void setUpPerTest() {
@@ -72,23 +62,18 @@ public class ParkingServiceTest {
     }
 
     @Test
-    public void processExitingVehicleTest(){ // A copier dans codio
+    public void processExitingVehicleTest(){
         //GIVEN
-
-        //definis dans le before each +
-        when(ticketDAO.getNbTicket(any())).thenReturn(0);
-
-
+        when(ticketDAO.getNbTicket(any())).thenReturn(1);
         //WHEN
         parkingService.processExitingVehicle();
-
         //THEN
-        verify(parkingSpotDAO, Mockito.times(1)).updateParking(any(ParkingSpot.class));// on vérifie que la methode fait bien appelle a updateParking avec l'argument ParkingSpot.class
-        assertEquals((ticketDAO.getTicket("ANYCAR").getPrice()), Fare.CAR_RATE_PER_HOUR);//ajouter a codio
+        verify(parkingSpotDAO, Mockito.times(1)).updateParking(any(ParkingSpot.class));
+        assertEquals((ticketDAO.getTicket("ANYCAR").getPrice()), Fare.CAR_RATE_PER_HOUR);
     }
 
     @Test
-    //testProcessIncomingVehicle : test de l’appel de la méthode processIncomingVehicle() où tout se déroule comme attendu.
+    //test de l’appel de la méthode processIncomingVehicle() où tout se déroule comme attendu.
     public void testProcessIncomingVehicle() {
         //GIVEN
         when(parkingSpotDAO.getNextAvailableSlot(ParkingType.CAR)).thenReturn(5);
@@ -99,7 +84,8 @@ public class ParkingServiceTest {
     }
 
     @Test
-    //processExitingVehicleTestUnableUpdate : exécution du test dans le cas où la méthode updateTicket() de ticketDAO renvoie false lors de l’appel de processExitingVehicle()
+    //exécution du test dans le cas où la méthode updateTicket() de ticketDAO renvoie false
+    // lors de l’appel de processExitingVehicle()
     public void processExitingVehicleTestUnableUpdate(){
         //GIVEN
         when(ticketDAO.updateTicket(any(Ticket.class))).thenReturn(false);
@@ -107,12 +93,13 @@ public class ParkingServiceTest {
         parkingService.processExitingVehicle();
         //THEN
         verify(parkingSpotDAO,never()).updateParking(any(ParkingSpot.class));
-        //Pour valider le test, il faudra retirer les when() inutile. Les déplacer quoi
+        //Pour valider le test, il faudra réarranger les when() pour eviter les conflits.
         // @MockitoSettings(strictness = Strictness.LENIENT) permet de résoudre le probléme
     }
 
     @Test
-    //testGetNextParkingNumberIfAvailable : test de l’appel de la méthode getNextParkingNumberIfAvailable() avec pour résultat l’obtention d’un spot dont l’ID est 1 et qui est disponible.
+    //test de l’appel de la méthode getNextParkingNumberIfAvailable() avec pour résultat l’obtention d’un spot
+    // dont l’ID est 1 et qui est disponible.
     public void testGetNextParkingNumberIfAvailable(){
         //GIVEN
         when(parkingSpotDAO.getNextAvailableSlot(any(ParkingType.class))).thenReturn(5);
@@ -124,7 +111,7 @@ public class ParkingServiceTest {
     }
 
     @Test
-    //testGetNextParkingNumberIfAvailableParkingNumberNotFound : test de l’appel de la méthode getNextParkingNumberIfAvailable() avec pour résultat aucun spot disponible (la méthode renvoie null).
+    //Test de l’appel de la méthode getNextParkingNumberIfAvailable() avec pour résultat aucun spot disponible (la méthode renvoie null).
     public void testGetNextParkingNumberIfAvailableParkingNumberNotFound(){
         //GIVEN
         when(parkingSpotDAO.getNextAvailableSlot(any(ParkingType.class))).thenReturn(-1);
@@ -133,8 +120,10 @@ public class ParkingServiceTest {
         //THEN
         assert(parkingService.getNextParkingNumberIfAvailable()==null);
     }
+
     @Test
-    //testGetNextParkingNumberIfAvailableParkingNumberWrongArgument : test de l’appel de la méthode getNextParkingNumberIfAvailable() avec pour résultat aucun spot (la méthode renvoie null) car l’argument saisi par l’utilisateur concernant le type de véhicule est erroné (par exemple, l’utilisateur a saisi 3).
+    //Test de l’appel de la méthode getNextParkingNumberIfAvailable() avec pour résultat aucun spot (la méthode renvoie null)
+    // car l’argument saisi par l’utilisateur concernant le type de véhicule est erroné (par exemple, l’utilisateur a saisi 3).
     public void testGetNextParkingNumberIfAvailableParkingNumberWrongArgument(){
         //GIVEN
         when(inputReaderUtil.readSelection()).thenReturn(3);

@@ -61,7 +61,6 @@ public class ParkingDataBaseIT {
 
     @AfterAll
     private static void tearDown(){
-
     }
 
     @Test
@@ -77,10 +76,9 @@ public class ParkingDataBaseIT {
     public void testParkingLotExit(){
         testParkingACar();
         Ticket ticket = (ticketDAO.getTicket("ABCDEF"));
-        ticket.setInTime(new Date(System.currentTimeMillis() - (120*60*1000)));//Je decale le temps d'arrivé de ABCDEF d'une heure
-        dataBasePrepareService.clearDataBaseEntries();// pour eviter qu'il y ai 2 tickets dans la BDD avec saveTicket.
+        ticket.setInTime(new Date(System.currentTimeMillis() - (120*60*1000)));//Je décale le temps d'arrivé de ABCDEF de 2 heures.
+        dataBasePrepareService.clearDataBaseEntries();// pour éviter d'avoir 2 tickets dans la BDD avec saveTicket.
         ticketDAO.saveTicket(ticket);
-
 
         ParkingService parkingService = new ParkingService(inputReaderUtil, parkingSpotDAO, ticketDAO);
         parkingService.processExitingVehicle();
@@ -95,7 +93,5 @@ public class ParkingDataBaseIT {
         parkingService.processIncomingVehicle();
         parkingService.processExitingVehicle();
         assertEquals(Math.round(((Fare.CAR_RATE_PER_HOUR*2)-(Fare.CAR_RATE_PER_HOUR*2*0.05))*100.0)/100.0,ticketDAO.getTicket("ABCDEF").getPrice());
-
     }
-
 }
