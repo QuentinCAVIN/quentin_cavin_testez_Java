@@ -70,6 +70,7 @@ public class ParkingServiceTest {
         //THEN
         verify(parkingSpotDAO, Mockito.times(1)).updateParking(any(ParkingSpot.class));
         assertEquals((ticketDAO.getTicket("ANYCAR").getPrice()), Fare.CAR_RATE_PER_HOUR);
+
     }
 
     @Test

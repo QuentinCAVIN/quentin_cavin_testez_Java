@@ -13,7 +13,7 @@ public class DataBaseConfig {
         logger.info("Create DB connection");
         Class.forName("com.mysql.cj.jdbc.Driver");
         return DriverManager.getConnection(
-                "jdbc:mysql://localhost:3306/test","root","codio");
+                "jdbc:mysql://localhost:3306/test",System.getenv("mysql.username"),System.getenv("mysql.password"));
     }
 
     public void closeConnection(Connection con){
